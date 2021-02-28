@@ -30,3 +30,7 @@ function randomFromArray(arr) {
 		return arr[Math.floor(Math.random() * arr.length)];
 	}
 }
+
+function pathagorean(startX, startY, endX, endY) {
+	return Math.sqrt(Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2));
+}

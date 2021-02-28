@@ -1,4 +1,4 @@
-export const monsters = [];
+export let monsters = [];
 export class Monster {
 	constructor(
 		x,
@@ -30,26 +30,6 @@ export class Monster {
 		monsters.push(this);
 	}
 
-	// moveTo(matrix, startX, startY, endX, endY) {
-	// 	if (!this.acceptableTiles.includes(getTile(matrix, endX, endY))) {
-	// 		const easystar = new EasyStar.js();
-	// 		easystar.setGrid(matrix);
-	// 		easystar.setAcceptableTiles([0]);
-	// 		easystar.findPath(startX, startY, endX, endY, function (list) {
-	// 			console.log(list);
-	// 			if (list !== null && list.length) {
-	// 				list.forEach((coords, idx) => {
-	// 					window.setTimeout(() => {
-	// 						this.x = coords.x;
-	// 						this.y = coords.y;
-	// 					}, 200 * idx);
-	// 				});
-	// 			}
-	// 		});
-	// 		easystar.calculate();
-	// 	}
-	// }
-
 	moveOne(level, startX, startY, endX, endY) {
 		easystar.setGrid(level.tileMatrix);
 		easystar.setAcceptableTiles(this.acceptableTiles);
@@ -69,9 +49,10 @@ export class Monster {
 
 	sortByDistance(arr) {
 		const arrWithDistances = arr.map((ele) => {
-			const xDiff = Math.pow(this.x - ele.x, 2);
-			const yDiff = Math.pow(this.y - ele.y, 2);
-			return { ...ele, distance: Math.sqrt(xDiff + yDiff) };
+			return {
+				...ele,
+				distance: pathagorean(this.x, this.y, ele.x, ele.y),
+			};
 		});
 		return arrWithDistances.sort((a, b) => {
 			return a.distance - b.distance;
@@ -86,9 +67,7 @@ export class Monster {
 	}
 
 	findDistance(monster) {
-		const xDiff = Math.pow(this.x - monster.x, 2);
-		const yDiff = Math.pow(this.y - monster.y, 2);
-		return Math.sqrt(xDiff + yDiff);
+		return pathagorean(this.x, this.y, monster.x, monster.y);
 	}
 
 	act(level) {
@@ -105,5 +84,12 @@ export class Monster {
 
 	attack(target) {
 		target.hp -= this.damage;
+		if (target.hp <= 0) {
+			target.die();
+		}
+	}
+
+	die() {
+		monsters = monsters.filter((m) => m !== this);
 	}
 }

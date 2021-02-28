@@ -23,3 +23,23 @@
 
 // getRoute(matrix, player.x, player.y, 4, 0);
 // moveOnPath(matrix, player.x, player.y, 4, 0);
+
+// moveTo(matrix, startX, startY, endX, endY) {
+// 	if (!this.acceptableTiles.includes(getTile(matrix, endX, endY))) {
+// 		const easystar = new EasyStar.js();
+// 		easystar.setGrid(matrix);
+// 		easystar.setAcceptableTiles([0]);
+// 		easystar.findPath(startX, startY, endX, endY, function (list) {
+// 			console.log(list);
+// 			if (list !== null && list.length) {
+// 				list.forEach((coords, idx) => {
+// 					window.setTimeout(() => {
+// 						this.x = coords.x;
+// 						this.y = coords.y;
+// 					}, 200 * idx);
+// 				});
+// 			}
+// 		});
+// 		easystar.calculate();
+// 	}
+// }
