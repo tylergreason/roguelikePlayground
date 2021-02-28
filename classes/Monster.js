@@ -16,7 +16,7 @@ export class Monster {
 	) {
 		this.x = x;
 		this.y = y;
-		level.occupy(this.x, this.y);
+		level.occupy(this.x, this.y, this);
 		this.hp = hp;
 		this.hpMax = hpMax;
 		this.moveRange = moveRange;
@@ -59,6 +59,18 @@ export class Monster {
 		});
 	}
 
+	findInDistance(arr, range) {
+		return this.sortByDistance(arr).filter(
+			(ele, idx) => ele.distance <= range && idx > 0
+		);
+	}
+
+	findSurrounding(arr) {
+		return this.sortByDistance(arr).filter(
+			(ele, idx) => ele.distance < 2 && idx > 0
+		);
+	}
+
 	findClosest(arr) {
 		const list = this.sortByDistance(arr);
 		if (list.length) {
@@ -68,6 +80,22 @@ export class Monster {
 
 	findDistance(monster) {
 		return pathagorean(this.x, this.y, monster.x, monster.y);
+	}
+
+	los(level, target) {
+		let line = drawLine(this.x, this.y, target.x, target.y);
+		line.splice(0, 1);
+		line.splice(line.length - 1, 1);
+		console.log(line);
+
+		return !line.find((coords) => {
+			const tile = level.getTile(coords.x, coords.y);
+			console.log(tile);
+			return (
+				level.occupied(coords.x, coords.y) ||
+				!this.acceptableTiles.includes(tile.tile)
+			);
+		});
 	}
 
 	act(level) {

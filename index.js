@@ -73,23 +73,6 @@ function draw() {
 	monsters[0].findClosest(monsters);
 }
 
-function getRoute(matrix, startX, startY, endX, endY, monster) {
-	const easystar = new EasyStar.js();
-	easystar.setGrid(matrix);
-	easystar.setAcceptableTiles([0]);
-	easystar.findPath(startX, startY, endX, endY, function (list) {
-		if (list !== null && list.length) {
-			monster.x = list[1].x;
-			monster.y = list[1].y;
-			draw();
-			window.setTimeout(() => {
-				getRoute(matrix, monster.x, monster.y, endX, endY);
-			}, 100);
-		}
-	});
-	easystar.calculate();
-}
-
 window.setInterval(() => {
 	draw();
 }, 500);
