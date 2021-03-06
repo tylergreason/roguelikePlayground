@@ -69,7 +69,6 @@ function draw() {
 		drawCharacter(monster);
 		monster.act(level);
 	});
-	debugger;
 	monsters[0].findClosest(monsters);
 }
 
